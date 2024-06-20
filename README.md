@@ -1,5 +1,6 @@
 
-![pe_logo](https://github.com/kiudee/pareto-embeddings/assets/564473/0fed45ba-d72e-49ec-b2f8-c304379a9e49)
+![pe_logo](https://github.com/kiudee/pareto-embeddings/assets/564473/d3822e9b-8503-4b3c-b4d4-b87846b10616)
+
 
 # Pareto Embeddings
 
