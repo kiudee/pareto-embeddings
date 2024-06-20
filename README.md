@@ -24,7 +24,7 @@ Pareto-embeddings offer unique advantages for practicioners in choice modeling:
 1. Clone the repository:
     ```bash
     git clone https://github.com/kiudee/pareto-embeddings.git
-    cd pareto
+    cd pareto-embeddings
     ```
 
 2. Install the dependencies using Poetry:
