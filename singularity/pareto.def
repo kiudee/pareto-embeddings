@@ -1,0 +1,70 @@
+Bootstrap: docker
+From: nvidia/cuda:10.1-cudnn7-devel-ubuntu16.04
+
+%files
+    ./id_ed25519_deploy /path/to/id_ed25519_deploy
+
+%post
+    export DEBIAN_FRONTEND=noninteractive
+    apt-get update
+    apt-get install -y --no-install-recommends \
+        cuda-cudart-10-0 \
+        cuda-compat-10-0 \
+        cuda-libraries-10-0 \
+        cuda-npp-10-0 \
+        cuda-nvtx-10-0 \
+        cuda-cublas-10-0=10.0.130-1 \
+        cuda-nvml-dev-10-0 \
+        cuda-command-line-tools-10-0 \
+        cuda-nvprof-10-0 \
+        cuda-npp-dev-10-0 \
+        cuda-libraries-dev-10-0 \
+        cuda-minimal-build-10-0 \
+        cuda-cublas-dev-10-0=10.0.130-1
+    #     libcudnn7=7.4.2.24-1+cuda10.0 \
+    #     libcudnn7-dev=7.4.2.24-1+cuda10.0 \
+    # apt-mark hold libcudnn7
+    apt-mark hold cuda-cublas-dev-10-0
+    apt-get install -y ssh-client make build-essential libssl-dev zlib1g-dev libbz2-dev \
+    libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
+    xz-utils tk-dev libffi-dev liblzma-dev python-openssl git libpq-dev
+    git clone https://github.com/pyenv/pyenv.git /path/to/pyenv
+    export PATH="/path/to/pyenv/bin:$PATH"
+    export PYENV_ROOT=/path/to/pyenv
+    eval "$(pyenv init -)"
+    env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.7.7
+    pyenv global 3.7.7
+
+    export POETRY_HOME=/path/to/poetry
+    # export POETRY_VIRTUALENVS_CREATE=false
+    curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
+    export PATH="/path/to/poetry/bin:$PATH"
+    # poetry config virtualenvs.create false
+
+    # The cluster executes the image with another user, make executable
+    chmod -R 777 /path/to
+
+    # Creating mountpoints for the cluster
+    mkdir -p /local /scratch /cluster/scratch /cluster/departments /cm/local/ /cm/shared
+    ln -s /local /tmpdir
+
+    rm -rf /var/lib/apt/lists/*
+
+%environment
+    export POETRY_HOME=/path/to/poetry
+    export POETRY_VIRTUALENVS_CREATE=true
+    export POETRY_VIRTUALENVS_PATH=/cluster/departments/groups/virtualenvs
+    export PYENV_ROOT=/path/to/pyenv
+    export PATH="/path/to/pyenv/bin:$PATH"
+    export PATH="/path/to/poetry/bin:$PATH"
+    eval "$(pyenv init - --no-rehash)"
+    export PYTHONFAULTHANDLER=1
+    export PYTHONUNBUFFERED=1
+    export GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no -i /path/to/id_ed25519_deploy"
+    export PIP_DEFAULT_TIMEOUT=100
+
+%runscript
+    cd /cluster/departments/groups/code
+
+    poetry run $*
+
