@@ -1,6 +1,16 @@
-# Pareto
+# Pareto Embeddings
 
 Pareto is a Python library for Pareto-embeddings, which are used in subset choice modeling using machine learning. This repository contains the code and resources required to use and extend Pareto-embeddings in your own projects.
+
+## Features
+
+Pareto-embeddings offer unique advantages for practicioners in choice modeling:
+
+- **Native Support for Subset Choices**: Unlike traditional approaches that primarily focus on discrete (top-1) choices, Pareto-embeddings natively support subset choices, making them ideal for a broader range of choice modeling applications.
+  
+- **Multidimensional Utility Embeddings**: Alternatives are embedded into a higher-dimensional utility space, representing them as a rich partial order rather than a linear order. This multidimensional approach captures the complexities and nuances of real-world choice scenarios, providing a more detailed and accurate representation.
+
+- **Custom Loss Functions**: Our learning algorithm utilizes custom differentiable loss functions designed to learn monotone utility dimensions. This allows for flexible and effective training tailored to specific choice modeling tasks.
 
 
 ## Installation
@@ -48,10 +58,6 @@ To fetch a job, use the `fetch_job` script:
 poetry run fetch_job
 ```
 
-## Features
-
-- **Pareto-embeddings**: Advanced embedding models for subset choice modeling.
-- **Experiment scripts**: Easily run and fetch experiments with provided scripts.
 
 ## How to Cite Us
 
