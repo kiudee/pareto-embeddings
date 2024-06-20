@@ -1,3 +1,6 @@
+
+![pe_logo](https://github.com/kiudee/pareto-embeddings/assets/564473/0fed45ba-d72e-49ec-b2f8-c304379a9e49)
+
 # Pareto Embeddings
 
 Pareto is a Python library for Pareto-embeddings, which are used in subset choice modeling using machine learning. This repository contains the code and resources required to use and extend Pareto-embeddings in your own projects.
